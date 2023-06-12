@@ -2,8 +2,7 @@ FROM ubuntu:22.04
 Maintainer The BitcoinHD Core developers <master@btchd.org>
 
 # Dependency
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install build-essential libtool autotools-dev pkg-config make automake curl python3 patch git yasm tzdata texinfo g++-multilib binutils-gold bsdmainutils libssl-dev -y && dpkg-reconfigure --frontend noninteractive tzdata && git clone https://github.com/Kitware/CMake /cmake && cd /cmake && ./configure && make && make install
-RUN apt-get install librsvg2-bin libtiff-tools bsdmainutils imagemagick libcap-dev libz-dev libbz2-dev python3-setuptools -y
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install build-essential libtool autotools-dev pkg-config make automake curl python3 patch git yasm tzdata texinfo g++-multilib binutils-gold bsdmainutils libssl-dev libncurses5 librsvg2-bin libtiff-tools bsdmainutils imagemagick libcap-dev libz-dev libbz2-dev python3-setuptools wget -y && dpkg-reconfigure --frontend noninteractive tzdata && git clone https://github.com/Kitware/CMake /cmake && cd /cmake && ./configure && make && make install
 
 # Build env
 ENV BUILD_HOST='x86_64-apple-darwin14'

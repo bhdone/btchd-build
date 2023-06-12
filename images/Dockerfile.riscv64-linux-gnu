@@ -1,8 +1,8 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 Maintainer The BitcoinHD Core developers <master@btchd.org>
 
 # Dependency
-RUN apt-get update && apt-get install build-essential libtool autotools-dev pkg-config make automake cmake curl python3 patch git -y
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install build-essential libtool autotools-dev pkg-config make automake curl python3 patch git yasm tzdata texinfo g++-multilib binutils-gold bsdmainutils libssl-dev -y && dpkg-reconfigure --frontend noninteractive tzdata && git clone https://github.com/Kitware/CMake /cmake && cd /cmake && ./configure && make && make install
 RUN apt-get install g++-multilib binutils-gold bsdmainutils -y
 RUN apt-get install g++-riscv64-linux-gnu binutils-riscv64-linux-gnu -y
 

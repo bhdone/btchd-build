@@ -19,8 +19,14 @@ APP_VER_MINOR=`head -n 15 "$WORKING_DIR/configure.ac" | sed -n 's/define(_CLIENT
 APP_VER_REVISION=`head -n 15 "$WORKING_DIR/configure.ac" | sed -n 's/define(_CLIENT_VERSION_REVISION,\ \([0-9]*\))/\1/p'`
 APP_VER_BUILD=`head -n 15 "$WORKING_DIR/configure.ac" | sed -n 's/define(_CLIENT_VERSION_BUILD,\ \([0-9]*\))/\1/p'`
 APP_VER_RC=`head -n 15 "$WORKING_DIR/configure.ac" | sed -n 's/define(_CLIENT_VERSION_RC,\ \([0-9]*\))/\1/p'`
-APP_VER=$APP_VER_MAJOR.$APP_VER_MINOR.$APP_VER_REVISION
+APP_VER=$APP_VER_MAJOR.$APP_VER_MINOR.$APP_VER_REVISION.$APP_VER_BUILD
 [ $APP_VER_RC -ge 1 ] && APP_VER="${APP_VER}rc$APP_VER_RC"
+echo "APP_VER_MAJOR=$APP_VER_MAJOR"
+echo "APP_VER_MINOR=$APP_VER_MINOR"
+echo "APP_VER_REVISION=$APP_VER_REVISION"
+echo "APP_VER_BUILD=$APP_VER_BUILD"
+echo "APP_VER_RC=$APP_VER_RC"
+echo "APP_VER=$APP_VER"
 APP_VER_SHORTSTR=v$APP_VER
 APP_VER_FULLSTR=v$APP_VER-`git rev-parse --short HEAD`
 
@@ -54,15 +60,15 @@ for host in $BUILD_HOSTS; do
     echo "================== Installing <$host> =================="
     mkdir -p $BUILD_DIST_DIR || exit 1
     if [ "$host" == "x86_64-w64-mingw32" ]; then # Windows x86_64. => xxx.zip
-        mv "$BUILD_TEMP_DIR/BitcoinHD-$APP_VER-win64-setup.exe" "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win64-setup.exe" || exit 1
+        mv "$BUILD_TEMP_DIR/BitcoinHD1-$APP_VER-win64-setup.exe" "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win64-setup.exe" || exit 1
         zip -j "$BUILD_DIST_DIR/bhd-$APP_VER_FULLSTR-win64.zip" "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win64-setup.exe" || exit 1
         rm "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win64-setup.exe" || exit 1
     elif [ "$host" == "i686-w64-mingw32" ]; then # Windows x86. => xxx.zip
-        mv "$BUILD_TEMP_DIR/BitcoinHD-$APP_VER-win32-setup.exe" "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win32-setup.exe" || exit 1
+        mv "$BUILD_TEMP_DIR/BitcoinHD1-$APP_VER-win32-setup.exe" "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win32-setup.exe" || exit 1
         zip -j "$BUILD_DIST_DIR/bhd-$APP_VER_FULLSTR-win32.zip" "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win32-setup.exe" || exit 1
         rm "$BUILD_DIST_DIR/bhd-$APP_VER_SHORTSTR-win32-setup.exe" || exit 1
     elif [ "$host" == "x86_64-apple-darwin14" ]; then # macOS. => xxx-osx.dmg
-        mv "$BUILD_TEMP_DIR/BitcoinHD-Core.dmg" "$BUILD_DIST_DIR/bhd-$APP_VER_FULLSTR-osx.dmg" || exit 1
+        mv "$BUILD_TEMP_DIR/BitcoinHD1-Core.dmg" "$BUILD_DIST_DIR/bhd-$APP_VER_FULLSTR-osx.dmg" || exit 1
     else # Unix. => xxx-$host.tar.gz
         rm -rf "$BUILD_TEMP_DIR/release/bhd-$APP_VER_SHORTSTR" && mkdir -p "$BUILD_TEMP_DIR/release/bhd-$APP_VER_SHORTSTR" || exit 1
         cp -r "$BUILD_TEMP_DIR/release/bin" "$BUILD_TEMP_DIR/release/bhd-$APP_VER_SHORTSTR" || exit 1
